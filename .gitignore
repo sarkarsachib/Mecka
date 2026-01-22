@@ -1,0 +1,192 @@
+# Android
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+
+# Kotlin
+*.kotlin_module
+
+# IntelliJ
+*.ipr
+*.iws
+*.iml
+
+# Gradle
+gradle-app.setttings
+!gradle-wrapper.jar
+
+# Local configuration
+local.properties
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Android Studio
+navigator.xml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+.idea/datasources
+.idea/dataSources.local.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+
+# Build outputs
+output.json
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Test results
+/test-results
+/coverage
+
+# Debug files
+*.stackdump
+*.hprof
+
+# IDE specific
+.idea/
+*.swp
+*.swo
+
+# Gradle cache
+.gradle/
+caches/
+
+# Local history
+.idea/local-history/
+
+# Crash logs
+crashlytics-build.properties
+
+# Firebase
+firebase/
+
+# Keystore files
+*.jks
+*.keystore
+
+# Signing files
+signing/
+
+# Proguard
+mapping/
+
+# APK outputs
+*.apk
+*.aab
+
+# AAR outputs
+*.aar
+
+# Class files
+*.class
+
+# Generated files
+generated/
+
+# External build outputs
+externalNativeBuild/
+
+# CMake build directory
+.cmake/
+
+# NDK
+obj/
+
+# Windows
+Thumbs.db
+
+# macOS
+*.DS_Store
+
+# Linux
+*~
+
+# Version control
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Dependency directories
+dependencies/
+
+# Test coverage
+jacoco/
+
+# Lint reports
+lint/
+
+# Navigation editor
+.navigation/
+
+# Profiler captures
+captures/
+
+# Android Profiler
+*.hprof
+
+# Emulator
+*.avd/
+
+# Gradle wrapper
+gradle-wrapper.jar
+
+# Local properties
+local.properties
+
+# Build folder
+build/
+
+# Generated files
+generated/
+
+# External native build
+.externalNativeBuild/
+
+# CMake
+.cmake/
+
+# NDK
+obj/
+
+# Windows
+Thumbs.db
+
+# macOS
+*.DS_Store
+
+# Linux
+*~
+
+# Version control
+.vscode/
+.idea/
+*.swp
+*.swo
