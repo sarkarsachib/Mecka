@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mecka</string>
+    <string name="accessibility_service_description">Mecka Accessibility Service for agentic intelligence</string>
+    <string name="notification_channel_name">Mecka Service</string>
+    <string name="notification_channel_description">Mecka background service notifications</string>
+</resources>
