@@ -1,6 +1,7 @@
 package ai.mecka.agents
 
 import ai.mecka.runtime.AgentMessage
+import ai.mecka.runtime.AgentRegistry
 import ai.mecka.runtime.MessagePriority
 import ai.mecka.runtime.StateManager
 import ai.mecka.security.SecurityManager
@@ -15,14 +16,16 @@ import timber.log.Timber
 class ListenerAgent(
     stateManager: StateManager,
     securityManager: SecurityManager,
-    hardwareManager: HardwareManager
+    hardwareManager: HardwareManager,
+    agentRegistry: AgentRegistry? = null
 ) : AgentBase(
     agentId = "listener_agent",
     agentName = "Listener Agent",
     agentDescription = "Handles audio input, wake word detection, and command extraction",
     stateManager = stateManager,
     securityManager = securityManager,
-    hardwareManager = hardwareManager
+    hardwareManager = hardwareManager,
+    agentRegistry = agentRegistry
 ) {
 
     private var audioRecord: AudioRecord? = null
@@ -102,7 +105,7 @@ class ListenerAgent(
     private suspend fun processAudio() {
         val audioBuffer = ShortArray(bufferSize / 2)
         
-        while (isRecording && !agentScope.isActive) {
+        while (isRecording && agentScope.isActive) {
             val bytesRead = audioRecord?.read(audioBuffer, 0, audioBuffer.size) ?: 0
             
             if (bytesRead > 0) {

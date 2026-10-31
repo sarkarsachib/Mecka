@@ -1,6 +1,7 @@
 package ai.mecka.agents
 
 import ai.mecka.runtime.AgentMessage
+import ai.mecka.runtime.AgentRegistry
 import ai.mecka.runtime.MessagePriority
 import ai.mecka.runtime.StateManager
 import ai.mecka.security.SecurityManager
@@ -14,14 +15,16 @@ class ContextAgent(
     private val context: Context,
     stateManager: StateManager,
     securityManager: SecurityManager,
-    hardwareManager: HardwareManager
+    hardwareManager: HardwareManager,
+    agentRegistry: AgentRegistry? = null
 ) : AgentBase(
     agentId = "context_agent",
     agentName = "Context Agent",
     agentDescription = "Tracks device state, app context, and publishes state changes",
     stateManager = stateManager,
     securityManager = securityManager,
-    hardwareManager = hardwareManager
+    hardwareManager = hardwareManager,
+    agentRegistry = agentRegistry
 ) {
 
     private val batteryManager: BatteryManager by lazy {

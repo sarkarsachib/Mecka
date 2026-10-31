@@ -111,9 +111,9 @@ class MeckaMainService : Service() {
         Timber.d("Initializing agents")
         
         // Create and register agents
-        val listenerAgent = ListenerAgent(stateManager, securityManager, hardwareManager)
-        val executorAgent = ExecutorAgent(this, stateManager, securityManager, hardwareManager)
-        val contextAgent = ContextAgent(this, stateManager, securityManager, hardwareManager)
+        val listenerAgent = ListenerAgent(stateManager, securityManager, hardwareManager, agentRegistry)
+        val executorAgent = ExecutorAgent(this, stateManager, securityManager, hardwareManager, agentRegistry)
+        val contextAgent = ContextAgent(this, stateManager, securityManager, hardwareManager, agentRegistry)
         
         agentRegistry.registerAgent(listenerAgent)
         agentRegistry.registerAgent(executorAgent)

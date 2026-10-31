@@ -48,6 +48,9 @@ class MessageRouterTest {
 
     @Test
     fun testMessageRouting() = runBlocking {
+        // Track received messages using a mutable list
+        val receivedMessages = mutableListOf<AgentMessage>()
+        
         val testAgent = object : AgentBase(
             agentId = "test_agent",
             agentName = "Test Agent",
@@ -56,10 +59,8 @@ class MessageRouterTest {
             securityManager = mockSecurityManager,
             hardwareManager = mockHardwareManager
         ) {
-            var receivedMessage: AgentMessage? = null
-            
             override fun onMessage(message: AgentMessage): Boolean {
-                receivedMessage = message
+                receivedMessages.add(message)
                 return true
             }
         }
@@ -76,11 +77,16 @@ class MessageRouterTest {
         messageRouter.routeMessage(testMessage, agents)
 
         // Verify message was received
-        assertEquals("test_123", (testAgent as Any).javaClass.getDeclaredField("receivedMessage").apply { isAccessible = true }.get(testAgent)?.messageId)
+        assertEquals(1, receivedMessages.size)
+        assertEquals("test_123", receivedMessages[0].messageId)
     }
 
     @Test
     fun testBroadcastMessage() = runBlocking {
+        // Track received messages for each agent
+        val agent1Messages = mutableListOf<AgentMessage>()
+        val agent2Messages = mutableListOf<AgentMessage>()
+
         val agent1 = object : AgentBase(
             agentId = "agent1",
             agentName = "Agent 1",
@@ -89,10 +95,8 @@ class MessageRouterTest {
             securityManager = mockSecurityManager,
             hardwareManager = mockHardwareManager
         ) {
-            var messageCount = 0
-            
             override fun onMessage(message: AgentMessage): Boolean {
-                messageCount++
+                agent1Messages.add(message)
                 return true
             }
         }
@@ -105,10 +109,8 @@ class MessageRouterTest {
             securityManager = mockSecurityManager,
             hardwareManager = mockHardwareManager
         ) {
-            var messageCount = 0
-            
             override fun onMessage(message: AgentMessage): Boolean {
-                messageCount++
+                agent2Messages.add(message)
                 return true
             }
         }
@@ -125,10 +127,59 @@ class MessageRouterTest {
         messageRouter.broadcastMessage(broadcastMessage, agents)
 
         // Verify both agents received the message
-        val agent1Count = agent1.javaClass.getDeclaredField("messageCount").apply { isAccessible = true }.get(agent1) as Int
-        val agent2Count = agent2.javaClass.getDeclaredField("messageCount").apply { isAccessible = true }.get(agent2) as Int
-        
-        assertEquals(1, agent1Count)
-        assertEquals(1, agent2Count)
+        assertEquals(1, agent1Messages.size)
+        assertEquals(1, agent2Messages.size)
+        assertEquals("broadcast_123", agent1Messages[0].messageId)
+        assertEquals("broadcast_123", agent2Messages[0].messageId)
+    }
+
+    @Test
+    fun testTargetStarBroadcast() = runBlocking {
+        // Track received messages
+        val agent1Messages = mutableListOf<AgentMessage>()
+        val agent2Messages = mutableListOf<AgentMessage>()
+
+        val agent1 = object : AgentBase(
+            agentId = "agent1",
+            agentName = "Agent 1",
+            agentDescription = "Test agent 1",
+            stateManager = mockStateManager,
+            securityManager = mockSecurityManager,
+            hardwareManager = mockHardwareManager
+        ) {
+            override fun onMessage(message: AgentMessage): Boolean {
+                agent1Messages.add(message)
+                return true
+            }
+        }
+
+        val agent2 = object : AgentBase(
+            agentId = "agent2",
+            agentName = "Agent 2",
+            agentDescription = "Test agent 2",
+            stateManager = mockStateManager,
+            securityManager = mockSecurityManager,
+            hardwareManager = mockHardwareManager
+        ) {
+            override fun onMessage(message: AgentMessage): Boolean {
+                agent2Messages.add(message)
+                return true
+            }
+        }
+
+        val agents = mapOf("agent1" to agent1, "agent2" to agent2)
+        val broadcastMessage = AgentMessage(
+            messageId = "star_broadcast_123",
+            sourceAgentId = "system",
+            targetAgentId = "*",
+            intent = "STAR_BROADCAST",
+            priority = MessagePriority.HIGH
+        )
+
+        messageRouter.routeMessage(broadcastMessage, agents)
+
+        // Verify both agents received the broadcast message
+        assertEquals(1, agent1Messages.size)
+        assertEquals(1, agent2Messages.size)
     }
 }

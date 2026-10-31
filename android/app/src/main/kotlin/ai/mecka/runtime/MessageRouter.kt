@@ -9,7 +9,7 @@ class MessageRouter {
 
     suspend fun routeMessage(message: AgentMessage, agents: Map<String, AgentBase>) {
         withContext(Dispatchers.Default) {
-            if (message.targetAgentId == "*") {
+            if (message.targetAgentId == "") {
                 // Broadcast to all agents
                 agents.values.forEach { agent ->
                     agent.onMessage(message)

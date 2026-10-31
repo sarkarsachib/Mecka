@@ -1,6 +1,7 @@
 package ai.mecka.agents
 
 import ai.mecka.runtime.AgentMessage
+import ai.mecka.runtime.AgentRegistry
 import ai.mecka.runtime.AgentState
 import ai.mecka.runtime.StateManager
 import ai.mecka.security.SecurityManager
@@ -17,7 +18,8 @@ abstract class AgentBase(
     val agentDescription: String,
     protected val stateManager: StateManager,
     protected val securityManager: SecurityManager,
-    protected val hardwareManager: HardwareManager
+    protected val hardwareManager: HardwareManager,
+    protected val agentRegistry: AgentRegistry? = null
 ) {
 
     protected val agentScope = CoroutineScope(Dispatchers.Default + Job())
@@ -74,7 +76,7 @@ abstract class AgentBase(
 
     // Helper methods
     protected fun sendMessage(message: AgentMessage) {
-        // Will be implemented by AgentRegistry
+        agentRegistry?.sendMessage(message) ?: Timber.w("No agentRegistry available for $agentId")
     }
 
     protected fun getCurrentState(): AgentState {
